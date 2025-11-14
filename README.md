@@ -71,7 +71,7 @@ Two batch scripts are provided for running experiments:
 You can also run experiments directly using Python:
 
 ```bash
-python Experiments.py --trip_csv "DATA/TransportModes/CHI-taxi/tripdata_full.csv" --dataset "CHI-taxi" --rounds 10 --clients 3 --vmd_k 3 --use_gat 1 --use_gcrn 1
+python main.py --trip_csv "DATA/TransportModes/CHI-taxi/tripdata_full.csv" --dataset "CHI-taxi" --rounds 10 --clients 3 --vmd_k 3 --use_gat 1 --use_gcrn 1
 ```
 
 ### Command Line Arguments
@@ -91,41 +91,51 @@ python Experiments.py --trip_csv "DATA/TransportModes/CHI-taxi/tripdata_full.csv
 
 ```
 .
-├── Experiments.py                 # Main implementation file with all modules
-├── README.md                      # This file
-├── requirements.txt               # Python dependencies
-├── run_gat_experiment.bat         # Batch script for GAT hybrid experiments
-├── run_vmd_expriment.bat          # Batch script for VMD-GCRN experiments
-└── DATA/
-    └── TransportModes/
-        ├── CHI-taxi/
-        │   ├── tripdata_full.csv
-        │   └── weatherdata_full.csv
-        ├── NYC-bike/
-        │   ├── tripdata_full.csv
-        │   └── weatherdata_full.csv
-        └── NYC-taxi/
-            ├── tripdata_full.csv
-            └── weatherdata_full.csv
+├── main.py                           # Main entry point
+├── README.md                         # This file
+├── requirements.txt                  # Python dependencies
+├── run_gat_experiment.bat            # Batch script for GAT hybrid experiments
+├── run_vmd_expriment.bat             # Batch script for VMD-GCRN experiments
+├── DATA/
+│   └── TransportModes/
+│       ├── CHI-taxi/
+│       │   ├── tripdata_full.csv
+│       │   └── weatherdata_full.csv
+│       ├── NYC-bike/
+│       │   ├── tripdata_full.csv
+│       │   └── weatherdata_full.csv
+│       └── NYC-taxi/
+│           ├── tripdata_full.csv
+│           └── weatherdata_full.csv
+└── federated_lstm_dstgcrn/           # Refactored code modules
+    ├── __init__.py
+    ├── experiment_runner.py          # Main experiment runner
+    ├── models/
+    │   ├── __init__.py
+    │   ├── graph_components.py       # Adaptive adjacency and graph convolution
+    │   ├── gat_components.py         # Graph attention network components
+    │   ├── lstm_cells.py             # Graph convolutional LSTM cells
+    │   └── lstm_dstgcrn.py           # Main LSTM-DSTGCRN model
+    ├── data/
+    │   ├── __init__.py
+    │   ├── dataset.py                # TripWeatherDataset implementation
+    │   └── utils.py                  # Data utilities (collate, padding)
+    ├── training/
+    │   ├── __init__.py
+    │   ├── metrics.py                # Evaluation metrics (MAE, RMSE, etc.)
+    │   └── trainer.py                # Training and evaluation functions
+    ├── federated/
+    │   ├── __init__.py
+    │   ├── fl_components.py          # FLClient and FLServer classes
+    │   └── selective_integration.py  # Selective integration functionality
+    ├── visualization/
+    │   ├── __init__.py
+    │   └── plots.py                  # Visualization and plotting functions
+    └── utils/
+        ├── __init__.py
+        ├── general_utils.py          # General utilities (seed, device handling)
+        └── vmd_utils.py              # VMD utilities and apply_vmd function
 ```
-
-### Module Organization in Experiments.py
-
-The [Experiments.py](file:///c%3A/Users/tarun/OneDrive/Desktop/Fedrated-LSTM-DSTGCRN%20with%20VMD/Experiments.py) file contains all the implementation organized into the following sections:
-
-1. **Utility Functions**: VMD implementation, seed setting, device management
-2. **Model Components**: 
-   - Adaptive adjacency matrix
-   - Graph convolution layers
-   - Graph attention layers (GAT)
-   - LSTM cells with graph convolutions
-   - Hybrid GCRN-GAT cells
-3. **Main Model**: LSTM-DSTGCRN implementation
-4. **Dataset Handling**: TripWeatherDataset with VMD preprocessing
-5. **Training/Evaluation**: Loss functions, training loops, evaluation metrics
-6. **Federated Learning**: Client and server implementations, selective integration
-7. **Visualization**: Comprehensive plotting functions for results analysis
-8. **Main Execution**: Command-line interface and experiment runner
 
 ### Output Files
 Results are saved in the specified `save_dir` with the following files:

@@ -3,7 +3,7 @@ echo Starting CHI-taxi Federated VMD-GCRN Experiment
 echo ============================================================
 
 REM --- Configuration ---
-set SCRIPT_PATH=test.py
+set SCRIPT_PATH=main.py
 set DATASET_NAME=CHI-taxi-FL-VMD-GCRN
 set SAVE_DIR=results\chi-taxi_federated_vmd_gcrn
 
@@ -13,8 +13,8 @@ if not exist "%SCRIPT_PATH%" (
     pause
     exit /b 1
 )
-if not exist "CHI-taxi\tripdata_full.csv" (
-    echo Error: CHI-taxi\tripdata_full.csv not found
+if not exist "DATA\TransportModes\CHI-taxi\tripdata_full.csv" (
+    echo Error: DATA\TransportModes\CHI-taxi\tripdata_full.csv not found
     pause
     exit /b 1
 )
@@ -32,7 +32,7 @@ REM --use_gat 0: Disables GAT spatial modeling.
 REM --use_gcrn 1: Enables GCRN spatial modeling (default).
 REM --clients 3: Enables Federated Learning mode.
 python "%SCRIPT_PATH%" ^
-    --trip_csv "CHI-taxi/tripdata_full.csv" ^
+    --trip_csv "DATA/TransportModes/CHI-taxi/tripdata_full.csv" ^
     --dataset "%DATASET_NAME%" ^
     --rounds 10 ^
     --clients 3 ^

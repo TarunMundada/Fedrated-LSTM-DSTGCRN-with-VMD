@@ -1,0 +1,1 @@
+# Init file for the Federated LSTM-DSTGCRN with VMD project
